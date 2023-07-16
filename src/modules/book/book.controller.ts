@@ -120,10 +120,30 @@ const deleteBook = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
+const getRecentBooks = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const result = await BookService.getRecentBooks();
+
+    return res.status(httpStatus.OK).json({
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Recent Books retrived successfully",
+      data: result,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const BookController = {
   getAllBooks,
   addNewBook,
   getSingleBook,
   updateBook,
   deleteBook,
+  getRecentBooks,
 };

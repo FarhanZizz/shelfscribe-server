@@ -30,7 +30,7 @@ const getAllBooks = async (filters: IBookFilters): Promise<IBook[] | null> => {
   const whereConditions =
     andConditions.length > 0 ? { $and: andConditions } : {};
 
-  const books = await Book.find(whereConditions);
+  const books = await Book.find(whereConditions).sort({ _id: -1 });
 
   return books;
 };
@@ -63,10 +63,17 @@ const deleteBook = async (id: string): Promise<IBook | null> => {
   return result;
 };
 
+const getRecentBooks = async (): Promise<IBook[] | null> => {
+  const books = await Book.find().sort({ _id: -1 }).limit(10);
+
+  return books;
+};
+
 export const BookService = {
   getAllBooks,
   addNewBook,
   getSingleBook,
   updateBook,
   deleteBook,
+  getRecentBooks,
 };
