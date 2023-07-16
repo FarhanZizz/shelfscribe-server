@@ -16,7 +16,7 @@ const loginUser = async (payload: ILoginUser): Promise<ILoginUserResponse> => {
   const { email, password } = payload;
   const isUserExist = await User.findOne(
     { email },
-    { email: 1, password: 1, _id: 1 }
+    { email: 1, password: 1, name: 1 }
   );
 
   if (!isUserExist) {
@@ -31,14 +31,14 @@ const loginUser = async (payload: ILoginUser): Promise<ILoginUserResponse> => {
   }
 
   //create access token & refresh token
-  const { _id } = isUserExist;
+  const { name } = isUserExist;
 
-  const accessToken = jwt.sign({ _id, email }, config.jwt.secret as Secret, {
+  const accessToken = jwt.sign({ name, email }, config.jwt.secret as Secret, {
     expiresIn: config.jwt.expires_in,
   });
 
   const refreshToken = jwt.sign(
-    { _id, email },
+    { name, email },
     config.jwt.refresh_secret as Secret,
     { expiresIn: config.jwt.refresh_expires_in }
   );
