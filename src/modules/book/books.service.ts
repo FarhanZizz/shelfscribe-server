@@ -35,6 +35,13 @@ const getAllBooks = async (filters: IBookFilters): Promise<IBook[] | null> => {
   return books;
 };
 
+const addNewBook = async (book: IBook): Promise<IBook | null> => {
+  const addedBook = await Book.create(book);
+
+  return addedBook;
+};
+
 export const BookService = {
   getAllBooks,
+  addNewBook,
 };

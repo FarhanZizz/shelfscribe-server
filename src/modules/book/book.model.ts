@@ -19,6 +19,9 @@ const bookSchema = new Schema<IBook>({
     type: String,
     required: true,
   },
+  description: {
+    type: String,
+  },
   reviews: [
     {
       username: {
@@ -31,8 +34,12 @@ const bookSchema = new Schema<IBook>({
       },
     },
   ],
-  imageURL: {
+  image: {
     type: String,
+  },
+  userEmail: {
+    type: String,
+    required: true,
   },
 });
 

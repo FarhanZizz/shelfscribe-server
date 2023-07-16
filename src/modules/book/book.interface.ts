@@ -9,15 +9,17 @@ export type IBook = {
   title: string;
   author: string;
   genre: string;
-  publicationDate: string;
+  description?: string;
+  publication: string;
   reviews?: IReview[];
-  imageURL?: string;
+  image?: string;
+  userEmail: string;
 };
 
 export type IBookFilters = {
   searchTerm?: string;
   genre?: string;
-  publicationYear?: string;
+  publication?: string;
 };
 
 export type BookModel = Model<IBook, Record<string, unknown>>;
