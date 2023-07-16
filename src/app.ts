@@ -5,6 +5,7 @@ import cors from "cors";
 import globalErrorHandler from "./middlewares/globalErrorHandler";
 import httpStatus from "http-status";
 import cookieParser from "cookie-parser";
+import { UserRoutes } from "./modules/user/user.routes";
 
 app.use(cors());
 app.use(cookieParser());
@@ -12,6 +13,8 @@ app.use(cookieParser());
 // parser
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use("/api/v1/", UserRoutes);
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello World!");
