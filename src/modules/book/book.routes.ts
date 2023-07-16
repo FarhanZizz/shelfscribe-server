@@ -8,5 +8,6 @@ router.get("/all-books", BookController.getAllBooks);
 router.post("/add-new-book", auth(), BookController.addNewBook);
 router.get("/book/:id", BookController.getSingleBook);
 router.patch("/book/:id", auth(), BookController.updateBook);
+router.delete("/book/:id", auth(), BookController.deleteBook);
 
 export const BookRoutes = router;

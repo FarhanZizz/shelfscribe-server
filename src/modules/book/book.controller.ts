@@ -89,9 +89,41 @@ const updateBook = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
+const deleteBook = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const bookId = req.params.id;
+
+    const book = await Book.findOne({ _id: bookId });
+
+    if (!book) {
+      throw new ApiError(httpStatus.NOT_FOUND, "Book not found");
+    }
+
+    // Check if the books user's email matches the verified user's email
+    if (book.userEmail !== req.user.email) {
+      throw new ApiError(
+        httpStatus.FORBIDDEN,
+        "You are not authorized to delete this Book"
+      );
+    }
+
+    const result = await BookService.deleteBook(bookId);
+
+    return res.status(httpStatus.OK).json({
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Book deleted successfully",
+      data: result,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const BookController = {
   getAllBooks,
   addNewBook,
   getSingleBook,
   updateBook,
+  deleteBook,
 };
