@@ -14,4 +14,10 @@ export type IBook = {
   imageURL?: string;
 };
 
+export type IBookFilters = {
+  searchTerm?: string;
+  genre?: string;
+  publicationYear?: string;
+};
+
 export type BookModel = Model<IBook, Record<string, unknown>>;

@@ -6,6 +6,7 @@ import globalErrorHandler from "./middlewares/globalErrorHandler";
 import httpStatus from "http-status";
 import cookieParser from "cookie-parser";
 import { UserRoutes } from "./modules/user/user.routes";
+import { BookRoutes } from "./modules/book/book.routes";
 
 app.use(cors());
 app.use(cookieParser());
@@ -15,6 +16,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/v1/", UserRoutes);
+app.use("/api/v1/", BookRoutes);
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello World!");
