@@ -1,5 +1,5 @@
 import { bookSearchableFields } from "./book.constant";
-import { IBook, IBookFilters } from "./book.interface";
+import { IBook, IBookFilters, IReview } from "./book.interface";
 import { Book } from "./book.model";
 
 const getAllBooks = async (filters: IBookFilters): Promise<IBook[] | null> => {
@@ -69,7 +69,22 @@ const getRecentBooks = async (): Promise<IBook[] | null> => {
   return books;
 };
 
+const addReview = async (
+  id: string,
+  payload: IReview
+): Promise<IBook | null> => {
+  const result = await Book.findOneAndUpdate(
+    { _id: id },
+    { $push: { reviews: payload } },
+    {
+      new: true,
+    }
+  );
+  return result;
+};
+
 export const BookService = {
+  addReview,
   getAllBooks,
   addNewBook,
   getSingleBook,

@@ -1,6 +1,6 @@
 import { Model } from "mongoose";
 
-type IReview = {
+export type IReview = {
   username: string;
   review: string;
 };

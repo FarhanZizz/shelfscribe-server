@@ -139,7 +139,32 @@ const getRecentBooks = async (
   }
 };
 
+const addReview = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const bookId = req.params.id;
+    const updatedData = req.body;
+
+    const book = await Book.findOne({ _id: bookId });
+
+    if (!book) {
+      throw new ApiError(httpStatus.NOT_FOUND, "Book not found");
+    }
+
+    const result = await BookService.addReview(bookId, updatedData);
+
+    return res.status(httpStatus.OK).json({
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Review added successfully",
+      data: result,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const BookController = {
+  addReview,
   getAllBooks,
   addNewBook,
   getSingleBook,
