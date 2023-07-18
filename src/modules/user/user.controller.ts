@@ -2,6 +2,8 @@ import { NextFunction, Request, Response } from "express";
 import httpStatus from "http-status";
 import { UserService } from "./user.service";
 import config from "../../config";
+import { User } from "./user.model";
+import ApiError from "../../errors/ApiError";
 
 const createUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -52,7 +54,11 @@ const addToWishlist = async (
   try {
     const { book } = req.body;
     const user = req.user.email;
+    const isExist = await User.findOne({ wishlist: book }, { wishlist: 1 });
 
+    if (isExist) {
+      throw new ApiError(httpStatus.NOT_ACCEPTABLE, "Already in wishlist");
+    }
     const result = await UserService.addToWishlist(book, user);
 
     return res.status(httpStatus.OK).json({
@@ -65,7 +71,24 @@ const addToWishlist = async (
     return next(error);
   }
 };
+const getWishList = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const user = req.user.email;
+
+    const result = await UserService.getWishList(user);
+
+    return res.status(httpStatus.OK).json({
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Wishlist retrived Successfully!",
+      data: result,
+    });
+  } catch (error) {
+    return next(error);
+  }
+};
 export const UserController = {
+  getWishList,
   addToWishlist,
   createUser,
   loginUser,

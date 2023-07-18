@@ -63,8 +63,17 @@ const addToWishlist = async (
 
   return result!;
 };
+const getWishList = async (email: string): Promise<IUser | null> => {
+  const result = await User.findOne({ email }, { wishlist: 1 }).populate({
+    path: "wishlist",
+    model: "Book",
+  });
+
+  return result!;
+};
 
 export const UserService = {
+  getWishList,
   addToWishlist,
   createUser,
   loginUser,

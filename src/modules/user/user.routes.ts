@@ -7,5 +7,6 @@ const router = express.Router();
 router.post("/auth/signup", UserController.createUser);
 router.post("/auth/login", UserController.loginUser);
 router.post("/user/add-to-wishlist", auth(), UserController.addToWishlist);
+router.post("/user/wishlist", auth(), UserController.getWishList);
 
 export const UserRoutes = router;
