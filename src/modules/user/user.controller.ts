@@ -43,7 +43,30 @@ const loginUser = async (req: Request, res: Response, next: NextFunction) => {
     return next(error);
   }
 };
+
+const addToWishlist = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { book } = req.body;
+    const user = req.user.email;
+
+    const result = await UserService.addToWishlist(book, user);
+
+    return res.status(httpStatus.OK).json({
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Book added to Wishlist!",
+      data: result,
+    });
+  } catch (error) {
+    return next(error);
+  }
+};
 export const UserController = {
+  addToWishlist,
   createUser,
   loginUser,
 };

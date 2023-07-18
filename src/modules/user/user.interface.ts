@@ -1,9 +1,11 @@
 import { Model } from "mongoose";
+import { IBook } from "../book/book.interface";
 
 export type IUser = {
   name: string;
   password: string;
   email: string;
+  wishlist?: IBook[];
 };
 
 export type ILoginUser = {

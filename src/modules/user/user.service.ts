@@ -5,6 +5,7 @@ import { User } from "./user.model";
 import jwt, { Secret } from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import config from "../../config";
+import mongoose from "mongoose";
 
 const createUser = async (user: IUser): Promise<IUser | null> => {
   const createdUser = await User.create(user);
@@ -48,8 +49,23 @@ const loginUser = async (payload: ILoginUser): Promise<ILoginUserResponse> => {
     refreshToken,
   };
 };
+const addToWishlist = async (
+  book: string,
+  email: string
+): Promise<IUser | null> => {
+  const result = await User.findOneAndUpdate(
+    { email },
+    { $push: { wishlist: book } }, // Use the ObjectId instead of the plain string
+    {
+      new: true,
+    }
+  );
+
+  return result!;
+};
 
 export const UserService = {
+  addToWishlist,
   createUser,
   loginUser,
 };

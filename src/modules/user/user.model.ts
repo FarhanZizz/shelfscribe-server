@@ -19,6 +19,12 @@ const userSchema = new Schema<IUser>(
       required: true,
       unique: true,
     },
+    wishlist: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "IBook",
+      },
+    ],
   },
   {
     timestamps: true,
