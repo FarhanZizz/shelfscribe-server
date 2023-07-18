@@ -25,6 +25,12 @@ const userSchema = new Schema<IUser>(
         ref: "IBook",
       },
     ],
+    reading: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "IBook",
+      },
+    ],
   },
   {
     timestamps: true,

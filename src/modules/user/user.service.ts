@@ -55,7 +55,7 @@ const addToWishlist = async (
 ): Promise<IUser | null> => {
   const result = await User.findOneAndUpdate(
     { email },
-    { $push: { wishlist: book } }, // Use the ObjectId instead of the plain string
+    { $push: { wishlist: book } },
     {
       new: true,
     }
@@ -71,8 +71,31 @@ const getWishList = async (email: string): Promise<IUser | null> => {
 
   return result!;
 };
+const addToReading = async (
+  book: string,
+  email: string
+): Promise<IUser | null> => {
+  const result = await User.findOneAndUpdate(
+    { email },
+    { $push: { reading: book } },
+    {
+      new: true,
+    }
+  );
 
+  return result!;
+};
+const getReading = async (email: string): Promise<IUser | null> => {
+  const result = await User.findOne({ email }, { reading: 1 }).populate({
+    path: "reading",
+    model: "Book",
+  });
+
+  return result!;
+};
 export const UserService = {
+  getReading,
+  addToReading,
   getWishList,
   addToWishlist,
   createUser,

@@ -87,7 +87,54 @@ const getWishList = async (req: Request, res: Response, next: NextFunction) => {
     return next(error);
   }
 };
+const addToReading = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { book } = req.body;
+    const user = req.user.email;
+    const isExist = await User.findOne({ reading: book }, { reading: 1 });
+
+    if (isExist) {
+      throw new ApiError(
+        httpStatus.NOT_ACCEPTABLE,
+        "Already in Currently Reading"
+      );
+    }
+    const result = await UserService.addToReading(book, user);
+
+    return res.status(httpStatus.OK).json({
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Book added to Currently Reading",
+      data: result,
+    });
+  } catch (error) {
+    return next(error);
+  }
+};
+
+const getReading = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const user = req.user.email;
+
+    const result = await UserService.getReading(user);
+
+    return res.status(httpStatus.OK).json({
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Currently Reading retrived Successfully!",
+      data: result,
+    });
+  } catch (error) {
+    return next(error);
+  }
+};
 export const UserController = {
+  getReading,
+  addToReading,
   getWishList,
   addToWishlist,
   createUser,

@@ -6,6 +6,7 @@ export type IUser = {
   password: string;
   email: string;
   wishlist?: IBook[];
+  reading?: IBook[];
 };
 
 export type ILoginUser = {
